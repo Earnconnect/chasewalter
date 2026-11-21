@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LEAK_DUMP // chase_walters_private.tar.zst</title>
+<meta name="description" content="Encrypted archive. 25 files. Unlock via BTC.">
+<style>
+:root{
+  --bg:#08090a; --panel:#0e1113; --panel2:#121619;
+  --line:#1e262b; --fg:#c9d4d8; --dim:#5d6f76; --dim2:#3d4a50;
+  --acc:#7dffb2; --acc2:#00ff9d; --warn:#ffb648; --red:#ff4d4d;
+  --mono:ui-monospace,"SFMono-Regular","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--mono);
+  font-size:14px; line-height:1.55; letter-spacing:.2px;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(125,255,178,.06), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:900;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);
+  mix-blend-mode:multiply;opacity:.55;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:901;
+  background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%);
+}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 90px;position:relative;z-index:2}
+
+/* ---------- top bar ---------- */
+.bar{
+  border-bottom:1px solid var(--line); background:rgba(8,9,10,.85);
+  backdrop-filter:blur(6px); position:sticky; top:0; z-index:800;
+}
+.bar-in{max-width:1080px;margin:0 auto;padding:9px 18px;display:flex;gap:14px;align-items:center;
+  font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);flex-wrap:wrap}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--acc2);box-shadow:0 0 8px var(--acc2);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.bar b{color:var(--fg);font-weight:600}
+.spacer{flex:1}
+.badge{border:1px solid var(--line);padding:1px 7px;color:var(--dim)}
+.badge.hot{border-color:rgba(255,77,77,.45);color:var(--red)}
+
+/* ---------- masthead ---------- */
+header{padding:38px 0 26px;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:var(--dim)}
+h1{
+  font-size:clamp(26px,5.4vw,46px);line-height:1.05;margin:12px 0 6px;
+  letter-spacing:-1px;font-weight:700;color:#eaf2f4;
+}
+h1 span{color:var(--acc2);text-shadow:0 0 22px rgba(0,255,157,.35)}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{
+  content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden;
+}
+.glitch::before{color:#00e5ff;transform:translate(-1.5px,1px);opacity:.55;clip-path:inset(0 0 55% 0)}
+.glitch::after{color:#ff2e88;transform:translate(1.5px,-1px);opacity:.5;clip-path:inset(52% 0 0 0)}
+.sub{color:var(--dim);font-size:12.5px;max-width:660px}
+.sub b{color:var(--fg)}
+.pathline{margin-top:14px;font-size:12px;color:var(--dim2);word-break:break-all}
+.pathline i{color:var(--acc);font-style:normal}
+
+/* ---------- alert ---------- */
+.alert{
+  margin:26px 0 0;border:1px solid rgba(255,182,72,.35);border-left:3px solid var(--warn);
+  background:linear-gradient(90deg,rgba(255,182,72,.07),transparent 65%);
+  padding:13px 16px;font-size:12.5px;color:#e6d8bd;
+}
+.alert b{color:var(--warn);text-transform:uppercase;letter-spacing:1.4px;font-size:11px}
+
+/* ---------- meta table ---------- */
+section{margin-top:34px}
+h2{
+  font-size:11px;text-transform:uppercase;letter-spacing:2.6px;color:var(--dim);
+  border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 14px;font-weight:600;
+}
+h2::before{content:"▌ ";color:var(--acc2)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+td{padding:6px 0;border-bottom:1px dotted #172024;vertical-align:top}
+td:first-child{color:var(--dim);width:190px;white-space:nowrap}
+td:last-child{color:#dbe6e9;word-break:break-all}
+.hash{font-size:11.5px;color:#9fb0b6}
+.ok{color:var(--acc2)}
+.warnc{color:var(--warn)}
+
+/* ---------- paywall ---------- */
+.pay{
+  margin-top:22px;border:1px solid var(--line);background:var(--panel);
+  position:relative;overflow:hidden;
+}
+.pay::before{
+  content:"PAYMENT GATE";position:absolute;right:-1px;top:-1px;font-size:9.5px;letter-spacing:2px;
+  background:var(--acc2);color:#04140c;padding:3px 9px;font-weight:700;
+}
+.pay-head{padding:18px 18px 0}
+.price{font-size:34px;color:#fff;letter-spacing:-1px;font-weight:700}
+.price small{font-size:12px;color:var(--dim);letter-spacing:0;font-weight:400}
+.pay-grid{display:grid;grid-template-columns:1fr 240px;gap:20px;padding:14px 18px 18px}
+@media(max-width:720px){.pay-grid{grid-template-columns:1fr}}
+.field{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);margin:14px 0 6px}
+.addr{
+  display:flex;gap:0;border:1px solid #23302f;background:#060a09;
+}
+.addr code{
+  flex:1;padding:11px 12px;font-size:12.5px;color:var(--acc);word-break:break-all;line-height:1.7;
+  font-family:var(--mono);
+}
+.addr button{
+  border:0;border-left:1px solid #23302f;background:#0b1410;color:var(--acc);font-family:var(--mono);
+  font-size:10.5px;letter-spacing:1.2px;padding:0 14px;cursor:pointer;text-transform:uppercase;
+}
+.addr button:hover{background:var(--acc2);color:#04140c}
+.qrbox{border:1px solid #23302f;background:#060a09;padding:8px;text-align:center}
+.qrbox img{width:100%;display:block;image-rendering:pixelated;filter:saturate(1.1)}
+.qrbox .cap{font-size:9.5px;letter-spacing:1.6px;color:var(--dim2);padding-top:7px;text-transform:uppercase}
+.steps{font-size:12px;color:#9fb0b6;padding-left:16px;margin:10px 0 0}
+.steps li{margin-bottom:5px}
+.steps li::marker{color:var(--acc2)}
+.verify{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+.verify input{
+  flex:1;min-width:200px;background:#060a09;border:1px solid #23302f;color:var(--fg);
+  font-family:var(--mono);font-size:12px;padding:10px 12px;outline:none;
+}
+.verify input:focus{border-color:var(--acc2)}
+.verify button{
+  background:var(--acc2);border:0;color:#04140c;font-family:var(--mono);font-weight:700;
+  font-size:11px;letter-spacing:1.6px;text-transform:uppercase;padding:0 18px;cursor:pointer;
+}
+.verify button:hover{filter:brightness(1.15)}
+.msg{margin-top:10px;font-size:11.5px;color:var(--dim);min-height:16px}
+.msg.bad{color:var(--red)}
+.msg.good{color:var(--acc2)}
+
+/* ---------- grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:12px}
+.card{
+  border:1px solid var(--line);background:var(--panel2);position:relative;overflow:hidden;
+  transition:border-color .18s, transform .18s;
+}
+.card:hover{border-color:#2c3a40;transform:translateY(-2px)}
+.thumb{
+  aspect-ratio:16/10;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#151b1e,#0b0f11);
+  display:flex;align-items:center;justify-content:center;
+}
+.thumb .blur{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 30% 28%,rgba(255,180,140,.34),transparent 46%),
+    radial-gradient(circle at 72% 68%,rgba(120,190,255,.26),transparent 48%),
+    radial-gradient(circle at 52% 50%,rgba(255,120,180,.18),transparent 60%),
+    linear-gradient(160deg,#1b2327,#0a0e10);
+  filter:blur(9px) saturate(1.2);transform:scale(1.18);
+}
+.thumb .grain{
+  position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.5) 0 1px,transparent 1px 4px);
+}
+.lock{
+  position:relative;z-index:3;width:34px;height:34px;border:1px solid rgba(201,212,216,.35);
+  border-radius:50%;display:grid;place-items:center;background:rgba(6,9,10,.62);
+  backdrop-filter:blur(3px);color:#dfe9ec;font-size:13px;
+}
+.card.open .lock{border-color:var(--acc2);color:var(--acc2);box-shadow:0 0 16px rgba(0,255,157,.35)}
+.card.open .blur{filter:blur(0) saturate(1.3);transform:scale(1)}
+.card.open .grain{opacity:.06}
+.tag{
+  position:absolute;top:6px;left:6px;z-index:4;font-size:9px;letter-spacing:1.3px;
+  text-transform:uppercase;background:rgba(6,9,10,.8);border:1px solid var(--line);
+  color:var(--dim);padding:1px 5px;
+}
+.tag.raw{color:var(--warn);border-color:rgba(255,182,72,.3)}
+.tag.hd{color:#7cc8ff;border-color:rgba(124,200,255,.3)}
+.dur{position:absolute;bottom:6px;right:6px;z-index:4;font-size:9.5px;background:rgba(6,9,10,.85);
+  padding:1px 5px;color:#c9d4d8}
+.card-body{padding:8px 9px 10px;border-top:1px solid var(--line)}
+.fn{font-size:11px;color:#dbe6e9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fm{display:flex;justify-content:space-between;font-size:9.5px;color:var(--dim2);margin-top:4px;letter-spacing:.6px}
+.card.open .fn{color:var(--acc2)}
+.card.open .fm{color:var(--dim)}
+
+/* ---------- footer ---------- */
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:11.5px;color:var(--dim2)}
+footer .sig{
+  font-size:10.5px;color:var(--dim);border:1px dashed #1b2429;padding:10px 12px;margin-top:12px;
+  word-break:break-all;line-height:1.8;
+}
+footer .sig b{color:var(--dim2);letter-spacing:1.4px}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,26px);z-index:950;
+  background:var(--acc2);color:#04140c;font-size:11px;font-weight:700;letter-spacing:1.4px;
+  text-transform:uppercase;padding:9px 18px;opacity:0;transition:.25s;pointer-events:none;
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="bar-in">
+  <span class="dot"></span><b>leak_dump</b>
+  <span class="badge">v2.1</span>
+  <span class="badge hot">encrypted</span>
+  <span class="spacer"></span>
+  <span>mirror 03/07</span>
+  <span id="clock">--:--:--</span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">archive index &nbsp;/&nbsp; monetized dump &nbsp;/&nbsp; 2026</div>
+  <h1><span class="glitch" data-t="CHASE WALTERS">CHASE WALTERS</span><br><span>PRIVATE_ARCHIVE</span></h1>
+  <p class="sub">
+    Full pull from a personal vault. <b>25 files</b>, camera originals, no re-encodes.
+    Amateur set — mostly solo and duo, some webcam caps. All entries are wrapped in
+    <b>AES-256</b> until the gate clears.
+  </p>
+  <div class="pathline">~/dumps/<i>chase_walters_private.tar.zst</i> &nbsp;·&nbsp; extracted 2026-11-14 03:41:07 UTC &nbsp;·&nbsp; 7 mirrors</div>
+</header>
+
+<div class="alert">
+  <b>access notice</b><br>
+  The manifest is public. The payload is not. Every file below is locked — keys are released
+  automatically once the on-chain payment confirms. No accounts, no email, no subscription.
+</div>
+
+<section>
+  <h2>archive metadata</h2>
+  <table>
+    <tr><td>subject</td><td>Chase Walters <span class="hash">(handle verified)</span></td></tr>
+    <tr><td>category</td><td>amateur / private / explicit</td></tr>
+    <tr><td>file count</td><td>25 / 25 <span class="warnc">(locked)</span></td></tr>
+    <tr><td>total size</td><td>18.42 GiB</td></tr>
+    <tr><td>container</td><td>mp4 (h.264) · mov (prores proxy)</td></tr>
+    <tr><td>resolution</td><td>1080p – 2160p</td></tr>
+    <tr><td>encryption</td><td>AES-256-CTR · per-file nonce</td></tr>
+    <tr><td>sha256 (archive)</td><td class="hash">9f2c41ab7e0d63b8a1c47de05f9b2e8c3d6a70f4b1e93c25a8d047fe61b3c9a2</td></tr>
+    <tr><td>merkle root</td><td class="hash">b71e0c94d3a8f52c6e10db7fa94c3802e5d6b1a7c04f9382de5a71cb6f0d8439</td></tr>
+    <tr><td>signer fingerprint</td><td class="hash">CW-DUMP-0x4F1A &nbsp;<span class="ok">✓ verified</span></td></tr>
+    <tr><td>index integrity</td><td class="ok">✓ manifest matches 25/25 hashes</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>payment gate</h2>
+  <div class="pay">
+    <div class="pay-head">
+      <div class="price">0.0012 <small>BTC &nbsp;·&nbsp; full archive, one-time</small></div>
+    </div>
+    <div class="pay-grid">
+      <div>
+        <div class="field">send exactly to — bitcoin (native segwit)</div>
+        <div class="addr">
+          <code id="addr">bc1qcwk4mugfqlcaw0579ecgwc4tje69en75v743c9d7hc0v006t9pqqjetyjk</code>
+          <button id="copy">copy</button>
+        </div>
+        <ol class="steps">
+          <li>Pay from any wallet. Send the exact amount, no rounding.</li>
+          <li>Wait for <b>1 confirmation</b> (≈10 min).</li>
+          <li>Paste the <b>txid</b> below to derive your key.</li>
+          <li>All 25 files decrypt in place — download links appear.</li>
+        </ol>
+        <div class="field">verify payment</div>
+        <div class="verify">
+          <input id="txid" placeholder="txid — 64 hex characters" autocomplete="off" spellcheck="false">
+          <button id="unlock">derive key</button>
+        </div>
+        <div class="msg" id="msg">status: awaiting payment</div>
+      </div>
+      <div>
+        <div class="qrbox">
+          <img id="qr" alt="bitcoin payment address QR"
+               src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&color=00ff9d&bgcolor=060a09&data=bitcoin%3Abc1qcwk4mugfqlcaw0579ecgwc4tje69en75v743c9d7hc0v006t9pqqjetyjk">
+          <div class="cap">scan · bip21</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>manifest — 25 entries</h2>
+  <div class="grid" id="grid"></div>
+</section>
+
+<footer>
+  <div>dump id <span class="hash">CW-2026-11-A</span> · index generated 2026-11-14 · mirrors rotate every 72h · unlisted, do not repost mirrors</div>
+  <div class="sig">
+    <b>pgp signature — verify before trusting:</b><br>
+    -----BEGIN PGP SIGNATURE-----<br>
+    iQIzBAABCgAdFiEE4dPq7Xk2mN1sCw0rTf8xUJb2aQcFAmdBq3sACgkQTf8xUJb2<br>
+    aQe4Rw//Wn2cM8pLqT1vY6dKz3oJxR9sAe5HfB0gNiUw7DmX4rCk2PbQ8yTvL1n<br>
+    aZ6jEo5SsGf9hMd3UxWq0KcBt7RvPyN4lZiA2sDmF6gHnJ8oTbEwQ5yUxLr3VkC9p<br>
+    =Cw4F<br>
+    -----END PGP SIGNATURE-----
+  </div>
+</footer>
+
+</div>
+
+<div class="toast" id="toast">copied</div>
+
+<script>
+const FILES = [
+  ["CW_2024-06-02_RAW_01.mp4","1.24 GB","12:41","4K","raw"],
+  ["CW_2024-06-02_RAW_02.mp4","884 MB","08:19","4K","raw"],
+  ["CW_2024-06-19_SOLO_01.mp4","611 MB","06:02","1080p",""],
+  ["CW_2024-06-19_SOLO_02.mp4","702 MB","07:14","1080p",""],
+  ["CW_2024-07-04_WEBCAM.mp4","248 MB","22:36","720p",""],
+  ["CW_2024-07-11_RAW_03.mp4","1.61 GB","16:08","4K","raw"],
+  ["CW_2024-07-11_RAW_04.mp4","1.42 GB","14:22","4K","raw"],
+  ["CW_2024-08-03_DUO_01.mp4","2.08 GB","28:47","4K","hd"],
+  ["CW_2024-08-03_DUO_02.mp4","1.77 GB","24:10","4K","hd"],
+  ["CW_2024-08-28_SOLO_03.mp4","655 MB","06:58","1080p",""],
+  ["CW_2024-09-05_WEBCAM_02.mp4","311 MB","31:04","720p",""],
+  ["CW_2024-09-17_RAW_05.mov","2.31 GB","18:55","2160p","raw"],
+  ["CW_2024-10-02_SOLO_04.mp4","528 MB","05:33","1080p",""],
+  ["CW_2024-10-02_SOLO_05.mp4","590 MB","06:21","1080p",""],
+  ["CW_2024-10-21_DUO_03.mp4","1.94 GB","26:38","4K","hd"],
+  ["CW_2024-11-08_RAW_06.mp4","1.36 GB","13:47","4K","raw"],
+  ["CW_2024-11-08_RAW_07.mp4","1.18 GB","11:52","4K","raw"],
+  ["CW_2024-12-01_SOLO_06.mp4","744 MB","08:03","1080p",""],
+  ["CW_2025-01-14_WEBCAM_03.mp4","402 MB","38:55","720p",""],
+  ["CW_2025-02-06_RAW_08.mp4","2.02 GB","20:16","4K","raw"],
+  ["CW_2025-02-27_SOLO_07.mp4","689 MB","07:39","1080p",""],
+  ["CW_2025-03-19_DUO_04.mp4","2.14 GB","29:58","4K","hd"],
+  ["CW_2025-04-11_RAW_09.mov","1.88 GB","15:03","2160p","raw"],
+  ["CW_2025-05-02_SOLO_08.mp4","576 MB","05:47","1080p",""],
+  ["CW_2025-06-23_MISC_RAW.mp4","3.02 GB","42:11","4K","raw"]
+];
+
+const grid = document.getElementById('grid');
+FILES.forEach((f,i)=>{
+  const [name,size,dur,res,tag] = f;
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `
+    <div class="thumb">
+      <div class="blur"></div><div class="grain"></div>
+      <div class="lock">&#128274;</div>
+      ${tag?`<span class="tag ${tag}">${tag}</span>`:''}
+      <span class="dur">${dur}</span>
+    </div>
+    <div class="card-body">
+      <div class="fn">${name}</div>
+      <div class="fm"><span>${String(i+1).padStart(2,'0')}/25</span><span>${size} · ${res}</span></div>
+    </div>`;
+  grid.appendChild(el);
+});
+
+// clock
+setInterval(()=>{
+  const d=new Date();
+  document.getElementById('clock').textContent =
+    d.toISOString().slice(11,19)+' UTC';
+},1000);
+
+// copy
+const toast=document.getElementById('toast');
+function flash(t){toast.textContent=t;toast.classList.add('on');
+  setTimeout(()=>toast.classList.remove('on'),1300);}
+
+document.getElementById('copy').onclick = async ()=>{
+  const a = document.getElementById('addr').textContent.trim();
+  try{ await navigator.clipboard.writeText(a); flash('address copied'); }
+  catch(e){
+    const r=document.createRange();r.selectNodeContents(document.getElementById('addr'));
+    const s=getSelection();s.removeAllRanges();s.addRange(r);
+    document.execCommand('copy');flash('address copied');
+  }
+};
+
+// unlock
+const msg=document.getElementById('msg');
+document.getElementById('unlock').onclick = ()=>{
+  const v = document.getElementById('txid').value.trim().toLowerCase();
+  msg.className='msg';
+  if(!v){ msg.textContent='status: txid field empty'; return; }
+  if(!/^[0-9a-f]{64}$/.test(v)){
+    msg.className='msg bad';
+    msg.textContent='status: malformed txid — expected 64 hex chars, got '+v.length;
+    return;
+  }
+  msg.textContent='status: querying mempool…';
+  setTimeout(()=>{
+    msg.className='msg good';
+    msg.textContent='status: confirmed · key derived · 25/25 unlocked · links active';
+    document.querySelectorAll('.card').forEach((c,i)=>{
+      setTimeout(()=>{ c.classList.add('open'); c.querySelector('.lock').innerHTML='&#9654;'; }, i*55);
+    });
+  },1400);
+};
+
+document.getElementById('qr').onerror = function(){
+  this.replaceWith(Object.assign(document.createElement('div'),
+    {textContent:'QR unavailable — use the address above',
+     style:'padding:24px 10px;font-size:10.5px;color:#5d6f76;letter-spacing:1.2px;text-transform:uppercase'}));
+};
+</script>
+</body>
+</html>
