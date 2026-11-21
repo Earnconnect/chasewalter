@@ -103,6 +103,11 @@ td:last-child{color:#dbe6e9;word-break:break-all}
 .pay-head{padding:18px 18px 0}
 .price{font-size:34px;color:#fff;letter-spacing:-1px;font-weight:700}
 .price small{font-size:12px;color:var(--dim);letter-spacing:0;font-weight:400}
+.rate{
+  font-size:10.5px;color:var(--dim2);letter-spacing:1.1px;text-transform:uppercase;
+  margin-top:5px;border-left:2px solid #24302f;padding-left:8px;
+}
+.rate b{color:var(--warn)}
 .pay-grid{display:grid;grid-template-columns:1fr 240px;gap:20px;padding:14px 18px 18px}
 @media(max-width:720px){.pay-grid{grid-template-columns:1fr}}
 .field{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);margin:14px 0 6px}
@@ -242,6 +247,7 @@ footer .sig b{color:var(--dim2);letter-spacing:1.4px}
     <tr><td>container</td><td>mp4 (h.264) · mov (prores proxy)</td></tr>
     <tr><td>resolution</td><td>1080p – 2160p</td></tr>
     <tr><td>encryption</td><td>AES-256-CTR · per-file nonce</td></tr>
+    <tr><td>price (usd-pegged)</td><td><b>0.0033282 BTC</b> <span class="warnc">≈ $200.00 USD</span></td></tr>
     <tr><td>sha256 (archive)</td><td class="hash">9f2c41ab7e0d63b8a1c47de05f9b2e8c3d6a70f4b1e93c25a8d047fe61b3c9a2</td></tr>
     <tr><td>merkle root</td><td class="hash">b71e0c94d3a8f52c6e10db7fa94c3802e5d6b1a7c04f9382de5a71cb6f0d8439</td></tr>
     <tr><td>signer fingerprint</td><td class="hash">CW-DUMP-0x4F1A &nbsp;<span class="ok">✓ verified</span></td></tr>
@@ -253,7 +259,8 @@ footer .sig b{color:var(--dim2);letter-spacing:1.4px}
   <h2>payment gate</h2>
   <div class="pay">
     <div class="pay-head">
-      <div class="price">0.0012 <small>BTC &nbsp;·&nbsp; full archive, one-time</small></div>
+      <div class="price">0.0033282 <small>BTC &nbsp;·&nbsp; ≈ $200.00 USD &nbsp;·&nbsp; full archive, one-time</small></div>
+      <div class="rate">rate pegged at index time &nbsp;·&nbsp; btc/usd <b>60,095.30</b> &nbsp;·&nbsp; stamped 2026-11-21 &nbsp;·&nbsp; do not underpay</div>
     </div>
     <div class="pay-grid">
       <div>
@@ -278,8 +285,8 @@ footer .sig b{color:var(--dim2);letter-spacing:1.4px}
       <div>
         <div class="qrbox">
           <img id="qr" alt="bitcoin payment address QR"
-               src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&color=00ff9d&bgcolor=060a09&data=bitcoin%3Abc1qcwk4mugfqlcaw0579ecgwc4tje69en75v743c9d7hc0v006t9pqqjetyjk">
-          <div class="cap">scan · bip21</div>
+               src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&color=00ff9d&bgcolor=060a09&data=bitcoin%3Abc1qcwk4mugfqlcaw0579ecgwc4tje69en75v743c9d7hc0v006t9pqqjetyjk%3Famount%3D0.0033282">
+          <div class="cap">scan · bip21 · amount pre-filled</div>
         </div>
       </div>
     </div>
